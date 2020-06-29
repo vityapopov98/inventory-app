@@ -521,6 +521,18 @@ p.event-card_description{
       background: white;
       box-shadow: none;
     }
+
+    /* toolbar */
+    .toolbar{
+      flex-direction: column;
+    }
+    .search input{
+      width: 100%;
+    }
+    /* карточки */
+    .item-card{
+      flex-direction: column;
+    }
 }
 .feather {
   width: 1.1rem;

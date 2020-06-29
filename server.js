@@ -151,9 +151,9 @@ app.listen(3000, err => {
 
 //___________routes__________
 app.get('/', urlencodedParser, (req, res,)=>{ //выдает страницу в браузер
-
-    res.json({resp: 'ok'})
-    // res.sendFile(__dirname + '/index.html/')
+    
+    // res.json({resp: 'ok'})
+    res.sendFile(__dirname + '/index.html/')
 
 })
 

@@ -1,5 +1,22 @@
 <template>
- <div>
+ <div class="Folders">
+<h2>Folders</h2>
+<div class="toolbar">
+  <div class="search" v-if="!showCreateComponent">
+    <input type="text" v-model="searchString" placeholder="Search">
+    <!-- <input type="text" v-model="filterName" placeholder="filter"> -->
+  </div>
+
+  <div class="switcher" v-if="!showCreateComponent">
+  <input type="radio" name="displaySwitch" id="displayCards" value="Storage" v-model="displayMode" class="switcher_first-button">
+  <label for="displayCards" class="switcher_first-button-label" :class="{'sitcher_active-label': displayMode == 'Storage'}">Storage</label>
+  <input type="radio" name="displaySwitch" value="Folder" id="displayTable" v-model="displayMode" class="switcher_first-button">
+  <label for="displayTable" class="switcher_first-button-label" :class="{'sitcher_active-label': displayMode == 'Folder'}">Folder</label>
+  </div>
+
+  <button class="circleButton" @click="toggleCreateComponent()">+ {{addNewItemButton}}</button>
+</div>
+
      <div class="folder-container">
          <div class="folder" v-for="(folder, index) in folders" :key="folder.id">
 
@@ -49,7 +66,8 @@ export default {
           id: 5,
           name: 'Lbk'
       }],
-      searchString: ''
+      searchString: '',
+      displayMode: 'Storage'
     }
   },
   methods:{
@@ -119,6 +137,7 @@ export default {
         //           console.log(data);
         //       })
         //   }
+        
   },
   mounted(){
         this.loadFolders();
@@ -148,8 +167,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.Folders{
+    padding-top: 3rem ;
+}
 .folder-container{
-    padding-top: 3rem;
+    /* padding-top: 1rem; */
     display: flex;
     flex-flow: row wrap;
     /* background-color: blueviolet; */

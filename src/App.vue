@@ -102,14 +102,15 @@ body {
 /*
  * Sidebar
  */
-
+/* 
+Не понял что это вообще
 .sidebar {
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
-  z-index: 100; /* Behind the navbar */
-  padding: 48px 0 0; /* Height of navbar */
+  z-index: 100; 
+  padding: 48px 0 0; 
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
 }
 
@@ -117,6 +118,13 @@ body {
   .sidebar {
     top: 5rem;
   }
+} */
+a{
+  color:#2c3e50;
+  font-weight: 700;
+}
+a.router-link-active{
+  color:#0080ff;
 }
 
 .sidebar-sticky {
