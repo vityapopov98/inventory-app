@@ -8,7 +8,7 @@ app.use(bodyParser.json());
 const urlencodedParser = bodyParser.urlencoded({extended: false}) //включение парсера
 console.log("hello!!!!! how are you ?))))")
 
-app.use(express.static('public'));
+app.use(express.static('dist'));
 
 const sequelize = new Sequelize('heroku_6fa82796f5120b0', 'b73bc9a47e21b1', '11783cae',{
     host: 'us-cdbr-east-02.cleardb.com',
