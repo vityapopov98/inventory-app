@@ -9,11 +9,10 @@
         <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
           <div class="sidebar-sticky pt-3">
             <ul class="nav flex-column">
-              <router-link to="/">Home</router-link>
+              <router-link to="/">Dashboard</router-link>
+              
               <!-- <router-link to="/items" params="{folder: 'all'}">items</router-link> -->
-               <router-link :to="{ name: 'Items', params: { folder: 'гараж' }}">Items new</router-link>
-              <li>Folders</li>
-              <li>Users</li>
+              <li>Administration</li>
               <li>Settings</li>
             </ul>
           </div>
@@ -57,22 +56,22 @@ export default {
     }
   },
   methods:{
-    hi(){
-      fetch('api/hi',{
-        headers:{
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        }
-      }).then(res=>{
-        var s= res
-        console.log(s)
+    // hi(){
+    //   fetch('api/hi',{
+    //     headers:{
+    //       'Content-Type': 'application/json',
+    //       'Accept': 'application/json'
+    //     }
+    //   }).then(res=>{
+    //     var s= res
+    //     console.log(s)
 
-        return s.json()
-      }).then(data=>{
-        console.log(data)
-        this.items = data
-      })
-    }
+    //     return s.json()
+    //   }).then(data=>{
+    //     console.log(data)
+    //     this.items = data
+    //   })
+    // }
   },
   mounted(){
     // this.hi()

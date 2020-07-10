@@ -12,7 +12,7 @@ const routes =[
         component: Home
     },
     {
-        path: '/items/:folder',
+        path: '/items/:from',
         name: 'Items',
         props: true,
         component: Items

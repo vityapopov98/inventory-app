@@ -1,10 +1,14 @@
 <template>
  <div class="Items">
-   <h2>Items</h2>
+   <h2>{{routeFolderName}}</h2>
    
-   
-
 <div class="toolbar">
+  <router-link class="circleButton" to="/">
+    <svg class="feather">
+      <use xlink:href="@/assets/feather-sprite.svg#arrow-left"/>
+    </svg>
+  </router-link>
+  
   <div class="search" v-if="!showCreateComponent">
     <input type="text" v-model="searchString" placeholder="Search">
     <!-- <input type="text" v-model="filterName" placeholder="filter"> -->
@@ -20,40 +24,17 @@
   <button class="circleButton" @click="toggleCreateComponent()">+ {{addNewItemButton}}</button>
 </div>
 
-<CreateItem v-if="showCreateComponent"/>
+<CreateItem :folderName="routeFolderName"  v-if="showCreateComponent"/>
+
+<div class="message-empty-content" v-if="items.length==0">
+  <h3>Нет вещей!</h3>
+  <p>Создайте вещи, нажав на кнопку Add Item</p>
+</div>
 
    <div class="card-block" v-if="displayMode=='Cards' && !showCreateComponent">
 
-     <div class="item-card" v-for="(item, index) in filteredItems" :key="index">
-       <div class="card-image">
-         <div class="card_img-container">
-         <img :src="item.image" alt="" srcset="">
-         </div>
-       </div>
-       <div class="card-body">
-         <div class="item-card-header">
-           <input type="text" class="item-card-header" v-model="item.name" :disabled="cardEditBtnStatus!==index">
-           <button v-on:click="cardEdit(index)" class="card-edit-button">
-             {{cardEditBtnLabel}}
-             <svg class="feather">
-                <use xlink:href="@/assets/feather-sprite.svg#edit"/>
-             </svg>
-           </button>
-           <button @click="deleteItem(index)" class="card-delete-button">
-             <svg class="feather">
-                <use xlink:href="@/assets/feather-sprite.svg#trash"/>
-             </svg>
-           </button>
-         </div>
-         <div class="card-information">
-           <p><input type="text" v-model="item.description" :disabled="cardEditBtnStatus!==index"></p>
-           <p>Purchase Date: <input type="text" v-model="item.purchaseDate" :disabled="cardEditBtnStatus!==index"></p>
-           <p>Guarantee: <input type="text" v-model="item.guarantee" :disabled="cardEditBtnStatus!==index"></p>
-           <p>Cost: <input type="text" v-model="item.cost" :disabled="cardEditBtnStatus!==index"></p>
-           <p>Count: <input type="text" v-model="item.count" :disabled="cardEditBtnStatus!==index"></p>
-           <p>Storage: <input type="text" v-model="item.storage.name" :disabled="cardEditBtnStatus!==index"></p>
-         </div>
-       </div>
+     <div v-for="(item, index) in filteredItems" :key="index">
+       <ItemCard :item="item" :index="index" :fromPlace="routeFolderName" @reloadCards="loadItems(routeFolderName)" />
      </div>
    </div>
           <div class="table-responsive" v-if="displayMode=='Table' && !showCreateComponent">
@@ -73,37 +54,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, index) in filteredItems" :key="index" ref="items" >
-              <td>{{item.id}}</td>
-              <td>
-                <input type="text" v-model="item.name" disabled="true">
-              </td>
-              <td>
-                <input type="text" v-model="item.description" disabled="true">
-              </td>
-              <td>
-                <input type="text" v-model="item.image" disabled="disabled">
-              </td>
-              <td>
-                <input type="text" v-model="item.purchaseDate" disabled="disabled">
-              </td>
-              <td>
-                <input type="text" v-model="item.guarantee" disabled="disabled">
-              </td>
-              <td>
-                <input type="text" v-model="item.cost" disabled="disabled">
-              </td>
-              <td>
-                <input type="text" v-model="item.count" disabled="disabled">
-              </td>
-              <td>
-                <input type="text" v-model="item.storage.name" disabled="disabled">
-              </td>
-              <td>
-                <button @click="edit(index)">Edit</button>
-                <button @click="deleteItem(index)">Delete</button>
-              </td>
-            </tr>
+            <ItemTableRow :item="item" v-for="(item, index) in filteredItems" :key="index" ref="items" />
           </tbody>
         </table>
           </div>
@@ -112,11 +63,16 @@
 
 <script>
 import CreateItem from '../components/CreateItem.vue'
+import ItemCard from '../components/ItemCard.vue'
+import ItemTableRow from '../components/ItemTableRow.vue'
+
 
 export default {
   name: 'Items',
   components: {
-    CreateItem
+    CreateItem, 
+    ItemCard,
+    ItemTableRow
   },
   data: function(){
     return {
@@ -129,171 +85,45 @@ export default {
         guarantee: '',
         cost: '',
         count: '',
-        storage:''
+        storage:'',
+        folder: ''
       },],
       displayMode: 'Cards',
-      cardEditBtnStatus: '',
-      cardEditBtnLabel: '',
       searchString: '',
-      routeFolderName: this.$route.params.folder,
+      routeFolderName: this.$route.params.from,
       filterName: 'name',
       showCreateComponent: false,
-      addNewItemButton: 'Add Item'
+      addNewItemButton: 'Add Item',
+      
     }
   },
   methods:{
-    loadItems(folder){
-          if (folder ==''){
-              fetch('api/get-item-all',{
-              headers:{
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-              }
-            }).then(res=>{
-              var s= res
-              console.log(s)
+    loadItems(fromHere){
+      console.log(fromHere)
+      this.requests.loadItems(fromHere).then(result=>{
 
-              return s.json()
-            }).then(data=>{
-              console.log(data)
-              this.items = data
-            })
-          }
-          else{
-            var storage = {
-              name: folder
-            }
-            console.log('this is storage: ', folder)
-            fetch(`api/get-item`,{
-              method: 'POST',
-              headers:{
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-              },
-              body: JSON.stringify(storage)
-            }).then(res=>{
-              var s= res
-              console.log(s)
-
-              return s.json()
-            }).then(data=>{
-              console.log(data)
-              this.items = data
-            })
-          }
-        },
-        toggleCreateComponent(){
-          if(this.showCreateComponent == false){
-            this.showCreateComponent = true;
-            this.addNewItemButton = 'Cancel'
-          }
-          else{
-            this.showCreateComponent = false;
-            this.addNewItemButton = 'Add Item'
-          }
-        },
-        edit(index){
-          var row = this.$refs.items[index] //getting tables row
-
-          console.log(row.childNodes[9])//ячейка с кнопками в строке
-          var isEdit ='';
-
-          //Меняем надпись на кнопке
-          if(row.childNodes[9].childNodes[0].innerText == 'Edit'){
-            row.childNodes[9].childNodes[0].innerText = 'Done';
-            isEdit = true;
-          }
-          else{
-            row.childNodes[9].childNodes[0].innerText = 'Edit';
-            isEdit = false;
-          }
-
-          //прогоняем по всем ячейкам и берем только инпуты
-          row.childNodes.forEach(element => {
-            console.log(element.childNodes)
-            if(element.childNodes[0].nodeName == 'INPUT'){
-              if(isEdit){
-                element.childNodes[0].removeAttribute('disabled');
-              }
-              else{
-                element.childNodes[0].setAttribute('disabled', "disabled");
-
-              }
-            }
-          });
-
-          if (!isEdit) {
-            this.updateItemInformation(index)
-          }
-        },
-        cardEdit(index){
-          if (this.cardEditBtnStatus === '') {
-            this.cardEditBtnStatus = index;
-            this.cardEditBtnLabel = 'Done';
-          }
-          else{
-            this.cardEditBtnStatus = '';
-            this.cardEditBtnLabel = '';
-            this.updateItemInformation(index)
-          }
-        },
-        updateItemInformation(index){
-            var curItem = {
-                        id: Number,
-                        name: '',
-                        description:'',
-                        image: '',
-                        purchaseDate: '',
-                        guarantee: '',
-                        cost: '',
-                        count: '',
-                        storage:''
-                      }
-                curItem.id = this.items[index].id;
-                curItem.name = this.items[index].name;
-                curItem.description = this.items[index].description;
-                curItem.image = this.items[index].image;
-                curItem.purchaseDate = this.items[index].purchaseDate;
-                curItem.guarantee = this.items[index].guarantee;
-                curItem.cost = this.items[index].cost;
-                curItem.count = this.items[index].count;
-                curItem.storage = this.items[index].storage.name;
-            fetch('/api/update-item', {
-                    method: 'PUT',
-                    headers:{
-                      'Content-Type': 'application/json',
-                      'Accept': 'application/json'
-                    },
-                    body: JSON.stringify(curItem)
-                  }).then(res=>{
-                    return res.json();
-                  }).then(data=>{
-                    console.log('data', data);
-                    this.loadItems();
-                  })
-        },
-        deleteItem(index){
-          var itemId = {
-            id: this.items[index].id
-          };
-          fetch('/api/delete-item', {
-            method: 'DELETE', 
-            headers:{
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            },
-            body: JSON.stringify(itemId)
-          }).then(()=>{
-            // if(res.status == 200){
-
-            // }
-            this.loadItems(this.routeFolderName)
-          })
-        }
+        this.items = result
+       console.log('result: ', result)
+      }).catch(er=>{
+        console.log(er)
+      })
+    },
+    toggleCreateComponent(){
+      if(this.showCreateComponent == false){
+        this.showCreateComponent = true;
+        this.addNewItemButton = 'Cancel'
+      }
+      else{
+        this.$emit('delete-preview')
+        this.showCreateComponent = false;
+        this.addNewItemButton = 'Add Item'
+      }
+    },
   },
   mounted(){
-    // alert('i am ready')
-        this.loadItems(this.routeFolderName);
+    this.loadItems(this.routeFolderName);
+    //Сбрасываем url фотки
+    this.$root.pictureUrl = ''
   },
   computed: {
     filteredItems: function(){
@@ -335,9 +165,11 @@ export default {
 /* __________toolbar________ */
 .toolbar{
   display: flex;
+  padding: 0rem  0rem 3rem;
   /* justify-content: space-between; */
 }
 .search input{
+  margin: 0 1rem;
   width: 500px;
   padding: .5rem 1.5rem;
   border-radius: 40px;
@@ -349,6 +181,7 @@ export default {
 }
 /* __________Switcher_______ */
 .switcher{
+  margin-right: 1rem;
   width: 10rem;
   height: 2.5rem;
   background-color: #f1f1f1;
@@ -356,8 +189,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0 1.5rem;
-  /* border: 3px solid #aeaeae; */
 }
 .switcher_first-button{
   height: 0;
@@ -380,6 +211,8 @@ export default {
   text-align: center;
 }
 .circleButton{
+  display: flex;
+  align-items: center;
   height: 2.5rem;
   background: rgb(255, 255, 255);
   border-radius: 40px;
@@ -391,6 +224,7 @@ export default {
   outline: none;
 }
 
+
 /* ____________Card___________ */
 .item-card{
     width: 100%;  
@@ -400,10 +234,14 @@ export default {
     border: 1px solid #c0c0c0;
     border-radius: 20px;
 }
-.item-card-header input{
+.item-card-header input, .folder-card-header input{
   font-size: 2rem;
   font-weight: 500;
+  flex-grow: 1;
 }
+ .folder-card-header input{
+   border: none;
+ }
 .item-card input:disabled{
   border: none;
   background-color: white;
@@ -419,12 +257,10 @@ export default {
 .card-image{
   padding: 22px;
 }
-.item-card-header{
+.item-card-header, .folder-card-header{
   display: flex;
 }
-.item-card-header input{
-  flex-grow: 1;
-}
+
 .card-body{
   width: 80%;
 }
@@ -432,19 +268,22 @@ export default {
     border: 0.5px solid #d7d7d7;
     margin: 2rem 0;
 }
-.card_img-container{
+.card_img-container, .folder_img-container{
     width: 260px;
     height: 260px;
     margin: auto;
     overflow: hidden;
     border-radius: 1rem;
     margin-bottom: 2rem;
-    background-color: #ff004d;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.card_img-container>img{
+
+.card_img-container{
+  background-color: #c0c0c0;
+}
+.card_img-container>img, .folder_img-container>img{
     object-fit: cover;
     width: 100%;
     height: 100%;
@@ -479,9 +318,7 @@ p.event-card_description{
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
-.toolbar{
-    padding: 0rem 1rem 3rem;
-}
+
 .events-toolbar>input{
     border-radius: 5rem;
     border: 1px solid #999;
@@ -524,7 +361,10 @@ p.event-card_description{
 
     /* toolbar */
     .toolbar{
-      flex-direction: column;
+      flex-flow: row wrap;
+    }
+    .search{
+      margin-bottom: 1rem;
     }
     .search input{
       width: 100%;
@@ -532,6 +372,17 @@ p.event-card_description{
     /* карточки */
     .item-card{
       flex-direction: column;
+    }
+    .card-image{
+      padding-bottom: 0;
+    }
+    .card-body{
+      width: 100%;
+      padding-top: 0;
+    }
+    .item-card-header>input{
+      font-size: 1.5rem;
+      font-weight: 600;
     }
 }
 .feather {
