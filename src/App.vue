@@ -1,27 +1,44 @@
 <template>
   <div id="app">
-    
-    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-      <h2>Inventory App</h2>
+    <!-- .shadow -->
+    <nav class="navbar navbar-light sticky-top bg-light flex-md-nowrap p-1 navbar-top">
+      <!-- <h2>Inventory App</h2> -->
+      <button class="btn">
+        <svg class="feather">
+          <use xlink:href="@/assets/feather-sprite.svg#menu"/>
+        </svg>
+      </button>
     </nav>
+
     <div class="container-fluid">
       <div class="row">
         <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-          <div class="sidebar-sticky pt-3">
+          <div class="sidebar-sticky pt-5">
+            <div class="prifile">
+              <div class="user-avatar">
+                <img src="" alt="">
+              </div>
+              <div class="user-name">
+                <h5>Admin</h5>
+              </div>
+            </div>
+            <hr>
             <ul class="nav flex-column">
               <router-link to="/">Dashboard</router-link>
-              
+               <router-link to="/users">Users</router-link>
               <!-- <router-link to="/items" params="{folder: 'all'}">items</router-link> -->
               <li>Administration</li>
               <li>Settings</li>
             </ul>
+            <!-- <button class="btn">Log out
+              <svg class="feather">
+                <use xlink:href="@/assets/feather-sprite.svg#log-out"/>
+              </svg>
+            </button> -->
           </div>
         </nav>
         <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-          <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-    <!-- <HelloWorld folderName="Welcome to Your Vue.js App"/> -->
     <Folder folderName="Hwllo"/>
-    <!-- <CreateItem></CreateItem> -->
           <router-view/>
         </main>
       </div>
@@ -90,6 +107,7 @@ export default {
 }
 body {
   font-size: .875rem;
+  
 }
 
 .feather {
@@ -97,27 +115,38 @@ body {
   height: 16px;
   vertical-align: text-bottom;
 }
-
-/*
- * Sidebar
- */
-/* 
-Не понял что это вообще
-.sidebar {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 100; 
-  padding: 48px 0 0; 
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+/* Profile */
+.prifile{
+  display: flex;
+  align-items: center;
+}
+.user-avatar{
+  background-color: #aeaeae;
+  height: 50px;
+  width: 50px;
+  border-radius: 30px;
+}
+.user-name{
+  padding-left: 1rem;
+}
+.user-name h5{
+  margin: 0;
 }
 
-@media (max-width: 767.98px) {
-  .sidebar {
-    top: 5rem;
+
+/* 
+ * Sidebar
+ */
+
+
+.navbar-top{
+    display: none;
   }
-} */
+@media (max-width: 767.98px) {
+  .navbar-top{
+    display: block;
+  }
+}
 a{
   color:#2c3e50;
   font-weight: 700;
@@ -125,14 +154,22 @@ a{
 a.router-link-active{
   color:#0080ff;
 }
+#sidebarMenu{
+  border-radius: 20px;
+  top: 7px;
+  left: 7px;
+  bottom: 7px;
+  height: calc(100vh - 14px);
+}
 
 .sidebar-sticky {
   position: relative;
-  top: 0;
-  height: calc(100vh - 48px);
+  /* top: 0; */
+  /* height: calc(100vh - 48px); */
   padding-top: .5rem;
   overflow-x: hidden;
   overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+
 }
 
 @supports ((position: -webkit-sticky) or (position: sticky)) {

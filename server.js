@@ -581,3 +581,17 @@ console.log('DELETING GIVING', req.body)
         })
     })    
 })
+
+// _________ Users _________
+//__________________________
+app.get('/api/get-users', urlencodedParser, (req, res,)=>{ //выдает страницу в браузер
+    //поменять на /api/get-items-all
+    console.log('😂😘😕🙂🙃🤠')
+
+    //выводит все записи с вещами
+    User.findAll().then(table=>{
+        res.json(table)
+    })
+    // res.sendFile(__dirname + '/index.html/')
+
+})
