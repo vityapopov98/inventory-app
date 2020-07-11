@@ -160,6 +160,7 @@ a.router-link-active{
   left: 7px;
   bottom: 7px;
   height: calc(100vh - 14px);
+  position: fixed;
 }
 
 .sidebar-sticky {
