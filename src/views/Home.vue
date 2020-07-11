@@ -15,7 +15,7 @@
 <CreateFolder v-if="showCreateComponent" :route="$root.place" />
 <div v-if="showEditComponent">
   <button class="circleButton" @click="showEditComponent = false">Cancel</button>
-  <EditFolder :route="$root.place" :id="idOfEdit" :name="nameForEdit" :icon="iconForEdit" :color="colorForEdit" :key="this.$root.updateHomeView" />
+  <EditFolder :route="$root.place" :id="idOfEdit" :name="nameForEdit" :icon="iconForEdit" :color="colorForEdit" @updateFolders="reloadFolders" />
 </div>
 
 <div class="message-empty-content" v-if="folders.length==0">
@@ -134,6 +134,11 @@ export default {
         this.requestFolders()
       }
       
+    },
+    reloadFolders(hide){
+      console.log('im working')
+      this.showEditComponent = hide;
+      this.loadFolders();
     },
     requestStorages(){
       fetch(`/api/get-storages`, {

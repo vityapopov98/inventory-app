@@ -121,7 +121,8 @@ export default {
             body: JSON.stringify(this.updatedFolder)
           }).then(res=>{
             console.log(res)
-            this.$root.showEditComponent = false
+            // this.$root.showEditComponent = false
+            this.$emit('updateFolders', false)
           })
     }
   },

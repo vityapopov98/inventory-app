@@ -12,17 +12,17 @@
        </div>
        <div class="card-body">
          <div class="item-card-header">
-           <input type="text" name="name" placeholder="name" v-model="createItem.name">
+           <input type="text" name="name" placeholder="Название" v-model="createItem.name">
          </div>
          <div class="card-information">
-           <p><input type="text" name="description" placeholder="description" v-model="createItem.description"></p>
-           <p>Image: <input type="text" name="image" placeholder="image" v-model="$root.pictureUrl"></p>
-           <p>Purchase Date: <input type="text" name="purchaseDate" placeholder="purchaseDate" v-model="createItem.purchaseDate"></p>
-           <p>Guarantee: <input type="text" name="guarantee" placeholder="guarantee" v-model="createItem.guarantee"></p>
-           <p>Cost: <input type="text" name="cost" placeholder="cost" v-model="createItem.cost"></p>
-           <p>Count: <input type="text" name="count" placeholder="count" v-model="createItem.count"></p>
-           <p>Storage: <input type="text" name="storage" placeholder="storage" v-model="createItem.storage"></p>
-           <p>Folder: <input type="text" name="folder" placeholder="folder" v-model="createItem.folder"></p>
+           <p><input type="text" name="description" placeholder="Описание" v-model="createItem.description"></p>
+           <p>Фото: <input type="text" name="image" placeholder="Фото" v-model="$root.pictureUrl"></p>
+           <p>Дата покупки: <input type="text" name="purchaseDate" placeholder="Дата покупки ГГГГ-ММ-ДД" v-model="createItem.purchaseDate"></p>
+           <p>Гарантия: <input type="text" name="guarantee" placeholder="гарантия" v-model="createItem.guarantee"></p>
+           <p>Цена: <input type="text" name="cost" placeholder="cost" v-model="createItem.cost"></p>
+           <p>Количество: <input type="text" name="count" placeholder="count" v-model="createItem.count"></p>
+           <p>Хранилище: <input type="text" name="storage" placeholder="storage" v-model="createItem.storage"></p>
+           <p>Папка: <input type="text" name="folder" placeholder="folder" v-model="createItem.folder"></p>
            <p><input type="text" class="d-none" name="from" placeholder="from" v-model="from" ></p>
            <input class="btn btn-primary" type="submit" value="save" @click="loading()">
          </div>
@@ -75,6 +75,13 @@ export default {
     from(){
       return this.folderName
     }
+  },
+  mounted(){
+    var d = '2020-06-12T13:51:50.417Z'
+    // var dateComponents = d.split('-')
+    // console.log('date components: ', dateComponents)
+    // var date = new Date(parseInt(dateComponents[0]), parseInt(dateComponents[1]), parseInt(dateComponents[2]), 0, 0, 0, 0)
+    console.log(Date.parse(d))  
   }
 }
 </script>

@@ -286,7 +286,7 @@ app.post('/api/create-item', urlencodedParser, (req, res)=>{
         name: req.body.name,
         description: req.body.description,
         image: req.body.image,
-        purchaseDate: req.body.description,
+        purchaseDate: req.body.purchaseDate,
         guarantee: req.body.guarantee,
         cost: req.body.cost,
         count: req.body.count,
@@ -313,11 +313,17 @@ app.post('/api/create-item', urlencodedParser, (req, res)=>{
                     console.log(created)
                     itemData.folderId = folder.get({plain: true}).id
                 }).then(()=>{
+                    console.log(itemData.purchaseDate)
+                    var dateComponents = itemData.purchaseDate.split('-')
+                    console.log('date components: ', dateComponents)
+                    var date = new Date(parseInt(dateComponents[0]), parseInt(dateComponents[1]), parseInt(dateComponents[2]), 0, 0, 0, 0)
+                    console.log(date)
+                    
                     Item.create({
                         name: itemData.name,
                         description: itemData.description,
                         image: itemData.image,
-                        purchaseDate: new Date(),
+                        purchaseDate: itemData.purchaseDate,
                         guarantee: itemData.guarantee,
                         cost: itemData.cost,
                         count: itemData.count,

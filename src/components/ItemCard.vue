@@ -4,6 +4,7 @@
          <div class="card_img-container">
          <img :src="item.image" alt="" srcset="">
          </div>
+         <input type="text" class="item-card-header" v-model="item.image" :disabled="isDisabled">
        </div>
        <div class="card-body">
          <div class="item-card-header">
@@ -120,7 +121,10 @@ export default {
       var result = confirm('⚠️This item will be deleted')
       if(result){
         console.log('red: ', this.fromPlace)
-        this.requests.deleteItem(this.item.id, this.fromPlace)
+        this.requests.deleteItem(this.item.id, this.fromPlace).then(response=>{
+          console.lo(response)
+          this.$emit('reloadCards')
+        })
       }
       //испустить событие на обновление данных в виде Items.vue
       
@@ -142,8 +146,17 @@ export default {
         console.log('Destroyed', data)
         this.$emit('reloadCards')
       })
-    }
+    },
 
+  },
+  mounted(){
+   
+  },
+  computed: {
+    itemPurchaseDate(){
+      var computedDate = this.item.purchaseDate.substr(10)
+      return computedDate
+    }
   }
 
 }

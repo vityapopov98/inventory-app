@@ -103,6 +103,9 @@ export default {
       this.requests.loadItems(fromHere).then(result=>{
 
         this.items = result
+        // this.items.forEach(element => {
+        //   element.purchaseDate = element.purchaseDate.slice(0, 10)
+        // });
        console.log('result: ', result)
       }).catch(er=>{
         console.log(er)
@@ -190,9 +193,11 @@ export default {
   align-items: center;
   justify-content: space-between;
 }
+/* 👇🏻 input */
 .switcher_first-button{
   height: 0;
   width: 0%;
+  opacity: 0;
 }
 .switcher_first-button-label{
   cursor: pointer;
