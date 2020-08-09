@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-
+const urlencodedParser = bodyParser.urlencoded({extended: false}) //включение парсера
 
 export default (app)=>{
 
