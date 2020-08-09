@@ -13,6 +13,9 @@ const sequelize = new Sequelize('heroku_6fa82796f5120b0', 'b73bc9a47e21b1', '117
     host: 'us-cdbr-east-02.cleardb.com',
     dialect: 'mysql'
 });
+// Database: heroku_6fa82796f5120b0
+//User name: b73bc9a47e21b1
+//Passsword: 11783cae
 
 sequelize
 .authenticate()
@@ -42,9 +45,7 @@ console.log("hello!!!!! how are you ?))))")
 
 app.use(express.static('dist'));
 
-// Database: heroku_6fa82796f5120b0
-//User name: b73bc9a47e21b1
-//Passsword: 11783cae
+
 
 
 const PORT = process.env.PORT || 3000;
