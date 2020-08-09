@@ -6,6 +6,7 @@ const Sequelize = require('sequelize');
 const { text } = require('body-parser');
 const { where } = require('sequelize');
 
+import routes from './routing';
 
 const sequelize = new Sequelize('heroku_6fa82796f5120b0', 'b73bc9a47e21b1', '11783cae',{
     host: 'us-cdbr-east-02.cleardb.com',
