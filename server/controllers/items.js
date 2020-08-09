@@ -1,4 +1,4 @@
-function getAllItems() {
+function getAllItems(req, res) {
     //поменять на /api/get-items-all
     console.log('😂😘😕🙂🙃🤠')
     
@@ -12,7 +12,7 @@ function getAllItems() {
     // res.sendFile(__dirname + '/index.html/')
     // getAllItems()
 }
-function getItemsInStorage() {
+function getItemsInStorage(req, res) {
     console.log('😂😘😕🙂🙃🤠')
         console.log('this is storage name: ', req.body.name)
     
@@ -31,7 +31,7 @@ function getItemsInStorage() {
             })
         })
 }
-function getItemsInFolder() {
+function getItemsInFolder(req, res) {
     console.log('😂😘😕🙂🙃🤠')
         console.log('this is folder name: ', req.body.name)
     
@@ -50,7 +50,7 @@ function getItemsInFolder() {
             })
         })
 }
-function getItemsInTrash() {
+function getItemsInTrash(req, res) {
     console.log('😂😘😕🙂🙃🤠')
     console.log('this is folder name: ', req.body.name)
     const Op = Sequelize.Op;
@@ -63,7 +63,7 @@ function getItemsInTrash() {
         res.json(table)
     })
 }
-function getGivenItems() {
+function getGivenItems(req, res) {
     console.log('😂😘😕🙂🙃🤠')
     const Op = Sequelize.Op;
     Item.findAll({include: [Storage, Folder, Giving], where:{
@@ -74,7 +74,7 @@ function getGivenItems() {
         res.json(table)
     })
 }
-function createItem() {
+function createItem(req, res) {
     console.log('I WILL ')
     console.log(req.body.from)
     var itemData = {
@@ -136,7 +136,7 @@ function createItem() {
             })
 }
 
-function updateItem() {
+function updateItem(req, res) {
     //данные приходят из requrst.js
     console.log('WILL UPDATE item row!!!')
     console.log('incoming data: ', req.body)
@@ -238,7 +238,7 @@ console.log(storageName)
 
 }
 
-function deleteItem() {
+function deleteItem(req, res) {
     Item.destroy({
         where: {
             id: req.body.id

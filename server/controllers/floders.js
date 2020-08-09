@@ -3,7 +3,7 @@ function getFolders() {
         res.json(folders)
     })
 }
-function createFolder() {
+function createFolder(req, res) {
     Folder.create({
         name: req.body.name,
         image: req.body.icon,
@@ -12,7 +12,7 @@ function createFolder() {
         res.redirect('/')
     })
 }
-function updateFolder() {
+function updateFolder(req, res) {
     console.log('Hey there =)')
         Folder.update({
             name: req.body.name,
@@ -26,7 +26,7 @@ function updateFolder() {
         })
         res.json({status: 'ok'})
 }
-function deleteFolder() {
+function deleteFolder(req, res) {
     Folder.destroy({
         where: {
             id: req.body.folder

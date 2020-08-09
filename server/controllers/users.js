@@ -1,4 +1,4 @@
-function getUsers() {
+function getUsers(req, res) {
     //поменять на /api/get-items-all
     console.log('😂😘😕🙂🙃🤠')
     

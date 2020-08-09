@@ -1,9 +1,9 @@
-function getStorages() {
+function getStorages(req, res) {
     Storage.findAll().then(storages=>{
         res.json(storages)
     })
 }
-function createStorage() {
+function createStorage(req, res) {
     Storage.create({
         name: req.body.name,
         image: req.body.icon,
@@ -12,7 +12,7 @@ function createStorage() {
         res.redirect('/')
     })
 }
-function updateStorage() {
+function updateStorage(req, res) {
     console.log('Hey there =)')
         Storage.update({
             name: req.body.name,
@@ -26,7 +26,7 @@ function updateStorage() {
         })
         res.json({status: 'ok'})
 }
-function deleteStorage() {
+function deleteStorage(req, res) {
     Storage.destroy({
         where: {
             id: req.body.folder

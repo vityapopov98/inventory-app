@@ -1,4 +1,4 @@
-function createGiving() {
+function createGiving(req, res) {
     //записать в таблицу Giving
         // полученный айди добавить к вещи
         console.log('Creating givinf: ', req.body)
@@ -14,7 +14,8 @@ function createGiving() {
             res.json({givingCreatedId: giving.id})
         })
 }
-function deleteGiving() {
+
+function deleteGiving(req, res) {
     //когда нажимаем на кнопку "вернуть"
     console.log('DELETING GIVING', req.body)
         //находим вещь с giving айди
