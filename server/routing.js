@@ -1,4 +1,8 @@
-export default ()=>{
+import express from 'express';
+import bodyParser from 'body-parser';
+
+
+export default (app)=>{
 
     //___________routes__________
     app.get('/', urlencodedParser, (req, res,)=>{ //выдает страницу в браузер

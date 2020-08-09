@@ -4,8 +4,7 @@ const app = express();
 import bodyParser from 'body-parser';//для парсинга в роутинге
 import Sequelize from 'sequelize';
 import dotenv from 'dotenv';
-// import { text } from 'body-parser';
-// const { where } = require('sequelize');
+
 
 import routes from './routing';
 const ApiRouter = routes();
@@ -20,9 +19,6 @@ const sequelize = new Sequelize(process.env.DATABASE, process.env.LOGIN, process
     dialect: 'mysql'
 });
 
-// Database: heroku_6fa82796f5120b0
-//User name: b73bc9a47e21b1
-//Passsword: 11783cae
 
 sequelize
 .authenticate()
@@ -33,16 +29,15 @@ sequelize
     console.error('Unable to connect to the database:', err);
 });
 
-const Storage = require('./models/storage')(sequelize, Sequelize)
-const Folder = require('./models/folder')(sequelize, Sequelize)
-const User = require('./models/user')(sequelize, Sequelize)
-const Item = require('./models/item')(sequelize, Sequelize)
-const Giving = require('./models/giving')(sequelize, Sequelize)
-Item.belongsTo(Storage);
-Item.belongsTo(Folder);
-Item.belongsTo(Giving);
-Giving.belongsTo(User); 
-// const { getAllItems } = require('./services/items');
+// const Storage = require('./models/storage')(sequelize, Sequelize)
+// const Folder = require('./models/folder')(sequelize, Sequelize)
+// const User = require('./models/user')(sequelize, Sequelize)
+// const Item = require('./models/item')(sequelize, Sequelize)
+// const Giving = require('./models/giving')(sequelize, Sequelize)
+// Item.belongsTo(Storage);
+// Item.belongsTo(Folder);
+// Item.belongsTo(Giving);
+// Giving.belongsTo(User); 
 
 
 
