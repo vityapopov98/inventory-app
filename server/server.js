@@ -1,11 +1,11 @@
 
-const express = require('express');//для роутинга
+import express from 'express';
 const app = express();
-const bodyParser = require('body-parser');//для парсинга в роутинге
-const Sequelize = require('sequelize');
-const { text } = require('body-parser');
-const { where } = require('sequelize');
+import bodyParser from 'body-parser';//для парсинга в роутинге
+import Sequelize from 'sequelize';
 import dotenv from 'dotenv';
+// import { text } from 'body-parser';
+// const { where } = require('sequelize');
 
 import routes from './routing';
 const ApiRouter = routes();
