@@ -102,12 +102,31 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* text-align: center; */
-  color: #2c3e50;
+  /* color: #2c3e50; */
   /* margin-top: 60px; */
 }
 body {
   font-size: .875rem;
   
+}
+@media(prefers-color-scheme: light){
+  body{
+    background-color: white;
+    color: rgb(28, 29, 30);
+  }
+}
+@media(prefers-color-scheme: dark){
+  body{
+    background-color:rgb(28, 28, 30);
+    color: white;
+  }
+  /* .folder{
+    background-color: rgb(44, 44, 46) !important;
+    color: white;
+  } */
+  #sidebarMenu{
+    background-color:rgb(44, 44, 46) !important;
+  }
 }
 
 .feather {

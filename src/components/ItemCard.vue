@@ -2,7 +2,7 @@
 <div class="item-card" v-if="item != undefined">
        <div class="card-image">
          <div class="card_img-container">
-         <img :src="item.image" alt="" srcset="">
+          <img :src="item.image" alt="" srcset="">
          </div>
          <input type="text" class="item-card-header" v-model="item.image" :disabled="isDisabled">
        </div>

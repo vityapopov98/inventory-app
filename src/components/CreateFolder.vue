@@ -176,14 +176,23 @@ a {
 input.folder-color-input, .folder-icon-select input{
   opacity: 0;
 }
+/* .folder_img-container{
+    width: 0px;
+    height: 100px;
+    
+  } */
 @media(max-width: 640px){
   .card-image{
     width: 100%
   }
   .folder_img-container{
-    width: 100px;
-    height: 100px;
+    width: 100px !important;
+    height: 100px !important;
     margin-bottom: 0;
   }
+  .toolbar{
+    padding-bottom: 1rem;
+  }
 }
+
 </style>

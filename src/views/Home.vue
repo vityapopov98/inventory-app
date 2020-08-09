@@ -308,13 +308,28 @@ export default {
     justify-content: center; 
 }
 .folder{
-    background-color: rgb(255, 255, 255);
+    /* background-color: rgb(255, 255, 255); */
     border: 1px solid #aeaeae;
     border-radius: 20px;
     height: 209px;
     width: 169px;
     margin: 1rem;
     padding: .6rem 1rem 1rem 1rem;
+}
+@media(prefers-color-scheme: light){
+  .folder{
+    background-color: white;
+    color: rgb(28, 29, 30);
+  }
+}
+@media(prefers-color-scheme: dark){
+  .folder{
+    background-color:rgb(44, 44, 46) !important;
+    border: 1px solid rgb(58, 58, 60) !important;
+  }
+  h2.folder-header{
+    color: white !important;
+  }
 }
 .dropdown{
   display: flex;

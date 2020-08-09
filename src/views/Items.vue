@@ -193,6 +193,19 @@ export default {
   align-items: center;
   justify-content: space-between;
 }
+
+/*  */
+@media(prefers-color-scheme: dark){
+  .sitcher_active-label, .circleButton{
+    background-color: rgb(44, 44, 46)!important;
+  }
+  .switcher_first-button-label, .circleButton{
+    border: 3px solid rgb(28, 28, 30)!important;
+  }
+  .switcher{
+    background-color:rgb(44, 44, 46);
+  }
+}
 /* 👇🏻 input */
 .switcher_first-button{
   height: 0;
@@ -273,9 +286,10 @@ export default {
     border: 0.5px solid #d7d7d7;
     margin: 2rem 0;
 }
+
 .card_img-container, .folder_img-container{
-    width: 260px;
-    height: 260px;
+  width: 260px;
+  height: 260px;
     margin: auto;
     overflow: hidden;
     border-radius: 1rem;
