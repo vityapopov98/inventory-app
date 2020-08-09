@@ -7,7 +7,7 @@ import dotenv from 'dotenv';
 
 
 import routes from './routing';
-const ApiRouter = routes();
+const ApiRouter = routes(app);
 
 const production= process.env.NODE_ENV === "production";
 if (!production) {
