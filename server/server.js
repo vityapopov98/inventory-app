@@ -5,14 +5,21 @@ const bodyParser = require('body-parser');//для парсинга в роут�
 const Sequelize = require('sequelize');
 const { text } = require('body-parser');
 const { where } = require('sequelize');
+import dotenv from 'dotenv';
 
 import routes from './routing';
 const ApiRouter = routes();
 
-const sequelize = new Sequelize('heroku_6fa82796f5120b0', 'b73bc9a47e21b1', '11783cae',{
-    host: 'us-cdbr-east-02.cleardb.com',
+const production= process.env.NODE_ENV === "production";
+if (!production) {
+    dotenv.load()
+}
+
+const sequelize = new Sequelize(process.env.DATABASE, process.env.LOGIN, process.env.PASSWORD, {
+    host: process.env.HOST,
     dialect: 'mysql'
 });
+
 // Database: heroku_6fa82796f5120b0
 //User name: b73bc9a47e21b1
 //Passsword: 11783cae
