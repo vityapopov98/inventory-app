@@ -1,21 +1,32 @@
 
-import express from 'express';
+// import express from 'express';
+// const app = express();
+// import bodyParser from 'body-parser';//для парсинга в роутинге
+// import Sequelize from 'sequelize';
+// import dotenv from 'dotenv';
+
+const express = require('express') ;
 const app = express();
-import bodyParser from 'body-parser';//для парсинга в роутинге
-import Sequelize from 'sequelize';
-import dotenv from 'dotenv';
+const bodyParser = require('body-parser');//для парсинга в роутинге
+const Sequelize = require ('sequelize');
+const dotenv = require('dotenv');
 
 
-import routes from './routing';
+const routes = require ('./routing');
+// import routes from './routing';
 const ApiRouter = routes(app);
 
-const production= process.env.NODE_ENV === "production";
-if (!production) {
-    dotenv.load()
-}
+// const production= process.env.NODE_ENV === "production";
+// if (!production) {
+//     dotenv.load()
+// }
 
-const sequelize = new Sequelize(process.env.DATABASE, process.env.LOGIN, process.env.PASSWORD, {
-    host: process.env.HOST,
+// const sequelize = new Sequelize(process.env.DATABASE, process.env.LOGIN, process.env.PASSWORD, {
+//     host: process.env.HOST,
+//     dialect: 'mysql'
+// });
+const sequelize = new Sequelize('heroku_6fa82796f5120b0', 'b73bc9a47e21b1', '11783cae',{
+    host: 'us-cdbr-east-02.cleardb.com',
     dialect: 'mysql'
 });
 

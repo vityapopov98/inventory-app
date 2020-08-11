@@ -1,9 +1,18 @@
-function getFolders() {
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize('heroku_6fa82796f5120b0', 'b73bc9a47e21b1', '11783cae',{
+    host: 'us-cdbr-east-02.cleardb.com',
+    dialect: 'mysql'
+});
+
+const Folder = require('../models/folder')(sequelize, Sequelize);
+
+
+module.exports.getFolders = function getFolders(req, res) {
     Folder.findAll().then(folders=>{
         res.json(folders)
     })
 }
-function createFolder(req, res) {
+module.exports.createFolder = function createFolder(req, res) {
     Folder.create({
         name: req.body.name,
         image: req.body.icon,
@@ -12,7 +21,7 @@ function createFolder(req, res) {
         res.redirect('/')
     })
 }
-function updateFolder(req, res) {
+module.exports.updateFolder = function updateFolder(req, res) {
     console.log('Hey there =)')
         Folder.update({
             name: req.body.name,
@@ -26,7 +35,7 @@ function updateFolder(req, res) {
         })
         res.json({status: 'ok'})
 }
-function deleteFolder(req, res) {
+module.exports.deleteFolder = function deleteFolder(req, res) {
     Folder.destroy({
         where: {
             id: req.body.folder
@@ -35,3 +44,10 @@ function deleteFolder(req, res) {
         res.json(result)
     })
 }
+
+// export {
+//     getFolders,
+//     createFolder,
+//     updateFolder,
+//     deleteFolder
+// }
