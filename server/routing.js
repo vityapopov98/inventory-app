@@ -30,7 +30,10 @@ module.exports = (app)=>{
     
     app.post('/api/get-items-in-storage', urlencodedParser, itemsControl.getItemsInStorage)
 
-    app.post('/api/get-items-in-folder', urlencodedParser, itemsControl.getItemsInFolder)
+    app.post('/api/get-items-in-folder', urlencodedParser, (req, res)=>{
+        console.log('route req', req.body )
+        itemsControl.getItemsInFolder(req, res);
+    })
 
     app.get('/api/get-items-in-trash', urlencodedParser, itemsControl.getItemsInTrash)
 

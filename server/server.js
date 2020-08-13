@@ -12,9 +12,7 @@ const Sequelize = require ('sequelize');
 const dotenv = require('dotenv');
 
 
-const routes = require ('./routing');
-// import routes from './routing';
-const ApiRouter = routes(app);
+
 
 // const production= process.env.NODE_ENV === "production";
 // if (!production) {
@@ -58,7 +56,9 @@ console.log("hello!!!!! how are you ?))))")
 
 app.use(express.static('dist'));
 
-
+const routes = require ('./routing');
+// import routes from './routing';
+const ApiRouter = routes(app);
 
 
 const PORT = process.env.PORT || 3000;

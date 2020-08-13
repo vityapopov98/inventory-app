@@ -82,9 +82,11 @@ const requests = {
           //значит папка
           url = '/api/get-items-in-folder'
           data.name = from
+          console.log(data.name)
         }
         return new Promise(function(resolve, reject){
           var fetchedData = {}
+          console.log(data)
           fetch(url,{
             method: 'POST',
             headers:{
