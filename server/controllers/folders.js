@@ -5,13 +5,45 @@ const sequelize = new Sequelize('heroku_6fa82796f5120b0', 'b73bc9a47e21b1', '117
 });
 
 const Folder = require('../models/folder')(sequelize, Sequelize);
-
+const Item = require('../models/item')(sequelize, Sequelize);
 
 module.exports.getFolders = function getFolders(req, res) {
-    Folder.findAll().then(folders=>{
-        res.json(folders)
+    Folder.findAll({raw: true}).then(folders=>{
+        itemsCounterFolder(folders).then(respondData=>{
+
+            res.json(respondData)
+        })
     })
 }
+function itemsCounterFolder(folderArray){
+    console.log('store array', folderArray)
+
+    return new Promise((resolve)=>{
+        //Вешаем на кажый обработанный элемент промис
+        //с помощью Promise.all создаем массив промисов, в которых хранилища с количесвтом вещей
+        //и всю эту констврукцию помещаем в промис, так как мы получили ассинхронный map()
+        Promise.all(folderArray.map(element => {
+        console.log('element:', element)
+
+            return new Promise(resolve=>{
+            var newElem = {}
+                Item.count({
+                    where: {folderId: element.id},
+                    distinct: true
+                }).then(count=>{
+                    
+                    newElem = element
+                    newElem.count = count // добавляем к свойствам хранилища свойство count
+                    resolve(newElem)
+                })
+            })
+        })).then(values=>{
+            console.log('Hope 🙏🏻', values)
+            resolve(values)
+        })
+    }) 
+}
+
 module.exports.createFolder = function createFolder(req, res) {
     Folder.create({
         name: req.body.name,

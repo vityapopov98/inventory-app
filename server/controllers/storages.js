@@ -5,13 +5,52 @@ const sequelize = new Sequelize('heroku_6fa82796f5120b0', 'b73bc9a47e21b1', '117
 });
 
 const Storage = require('../models/storage')(sequelize, Sequelize);
+const Item = require('../models/item')(sequelize, Sequelize);
 
 
 module.exports.getStorages = function getStorages(req, res) {
-    Storage.findAll().then(storages=>{
-        res.json(storages)
+
+    Storage.findAll({raw: true}).then(storages=>{
+        console.log(storages)//список объектов хранилищ
+
+        itemsCounterStorage(storages).then(respondData=>{ //вызываю функци, которая должна считать 
+            console.log(respondData)
+            res.json(respondData)//отправляю данные на фронтенд
+        }).catch(error=>{
+            console.log('EROORRRRR')
+        })
     })
 }
+
+function itemsCounterStorage(storageArray){
+    console.log('store array',storageArray)
+
+    return new Promise((resolve)=>{
+        //Вешаем на кажый обработанный элемент промис
+        //с помощью Promise.all создаем массив промисов, в которых хранилища с количесвтом вещей
+        //и всю эту констврукцию помещаем в промис, так как мы получили ассинхронный map()
+        Promise.all(storageArray.map(element => {
+        console.log('element:', element)
+
+            return new Promise(resolve=>{
+            var newElem = {}
+                Item.count({
+                    where: {storageId: element.id},
+                    distinct: true
+                }).then(count=>{
+                    
+                    newElem = element
+                    newElem.count = count // добавляем к свойствам хранилища свойство count
+                    resolve(newElem)
+                })
+            })
+        })).then(values=>{
+            console.log('Hope 🙏🏻', values)
+            resolve(values)
+        })
+    }) 
+}
+
 module.exports.createStorage = function createStorage(req, res) {
     Storage.create({
         name: req.body.name,

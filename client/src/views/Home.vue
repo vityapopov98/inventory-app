@@ -64,7 +64,7 @@
               <router-link :to="{ name: 'Items', params: { from: folder.name}}" v-if="displayMode=='Folder'">
                 <h2 class="folder-header">{{folder.name}}</h2>
               </router-link>
-             <p class="folder-item-count">15 items</p>
+             <p class="folder-item-count">{{folder.count}} <span v-if="folder.name != 'Все вещи' && folder.name != 'Корзина' && folder.name != 'Given'">вещей</span>  </p>
          </div> 
      </div>
  </div>
