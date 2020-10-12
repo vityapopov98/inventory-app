@@ -1,14 +1,24 @@
-const Sequelize = require('sequelize');
+// const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 const sequelize = new Sequelize('heroku_6fa82796f5120b0', 'b73bc9a47e21b1', '11783cae',{
     host: 'us-cdbr-east-02.cleardb.com',
     dialect: 'mysql'
 });
 
-const Storage = require('../models/storage')(sequelize, Sequelize);
-const Item = require('../models/item')(sequelize, Sequelize);
+// const Storage = require('../models/storage')(sequelize, Sequelize);
+// const Item = require('../models/item')(sequelize, Sequelize);
 
 
-module.exports.getStorages = function getStorages(req, res) {
+import ItemConstructor from '../models/item.js'
+import StorageConstructor from '../models/storage.js'
+
+const Item = ItemConstructor(sequelize, Sequelize)
+const Storage = StorageConstructor(sequelize, Sequelize)
+
+
+
+// module.exports.getStorages = function getStorages(req, res) {
+function getStorages(req, res) {
 
     Storage.findAll({raw: true}).then(storages=>{
         console.log(storages)//список объектов хранилищ
@@ -51,7 +61,8 @@ function itemsCounterStorage(storageArray){
     }) 
 }
 
-module.exports.createStorage = function createStorage(req, res) {
+// module.exports.createStorage = function createStorage(req, res) {
+function createStorage(req, res) {
     Storage.create({
         name: req.body.name,
         image: req.body.icon,
@@ -60,7 +71,8 @@ module.exports.createStorage = function createStorage(req, res) {
         res.redirect('/')
     })
 }
-module.exports.updateStorage = function updateStorage(req, res) {
+// module.exports.updateStorage = function updateStorage(req, res) {
+function updateStorage(req, res) {
     console.log('Hey there =)')
         Storage.update({
             name: req.body.name,
@@ -74,7 +86,8 @@ module.exports.updateStorage = function updateStorage(req, res) {
         })
         res.json({status: 'ok'})
 }
-module.exports.deleteStorage = function deleteStorage(req, res) {
+// module.exports.deleteStorage = function deleteStorage(req, res) {
+function deleteStorage(req, res) {
     Storage.destroy({
         where: {
             id: req.body.folder
@@ -84,9 +97,9 @@ module.exports.deleteStorage = function deleteStorage(req, res) {
     })
 }
 
-// export {
-//     getStorages,
-//     createStorage,
-//     updateStorage,
-//     deleteStorage
-// }
+export {
+    getStorages,
+    createStorage,
+    updateStorage,
+    deleteStorage
+}

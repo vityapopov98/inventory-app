@@ -1,12 +1,17 @@
-const Sequelize = require('sequelize');
+// const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 const sequelize = new Sequelize('heroku_6fa82796f5120b0', 'b73bc9a47e21b1', '11783cae',{
     host: 'us-cdbr-east-02.cleardb.com',
     dialect: 'mysql'
 });
 
-const Giving = require('../models/giving')(sequelize, Sequelize)
+// const Giving = require('../models/giving')(sequelize, Sequelize)
 
-module.exports.createGiving = function createGiving(req, res) {
+import GivingConstructor from '../models/giving.js'
+const Giving = GivingConstructor(sequelize, Sequelize)
+
+// module.exports.createGiving = function createGiving(req, res) {
+function createGiving(req, res) {
     //записать в таблицу Giving
         // полученный айди добавить к вещи
         console.log('Creating givinf: ', req.body)
@@ -23,7 +28,8 @@ module.exports.createGiving = function createGiving(req, res) {
         })
 }
 
-module.exports.deleteGiving = function deleteGiving(req, res) {
+// module.exports.deleteGiving = function deleteGiving(req, res) {
+function deleteGiving(req, res) {
     //когда нажимаем на кнопку "вернуть"
     console.log('DELETING GIVING', req.body)
         //находим вещь с giving айди
@@ -52,7 +58,7 @@ module.exports.deleteGiving = function deleteGiving(req, res) {
         })    
 }
 
-// export{
-//     createGiving,
-//     deleteGiving
-// }
+export{
+    createGiving,
+    deleteGiving
+}

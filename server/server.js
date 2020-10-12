@@ -1,15 +1,16 @@
 
-// import express from 'express';
-// const app = express();
-// import bodyParser from 'body-parser';//для парсинга в роутинге
-// import Sequelize from 'sequelize';
-// import dotenv from 'dotenv';
-
-const express = require('express') ;
+import express from 'express';
 const app = express();
-const bodyParser = require('body-parser');//для парсинга в роутинге
-const Sequelize = require ('sequelize');
-const dotenv = require('dotenv');
+import bodyParser from 'body-parser';//для парсинга в роутинге
+import Sequelize from 'sequelize';
+import dotenv from 'dotenv';
+// import {verifyAccessToken} from './services/jwt_helper.js'
+
+// const express = require('express');
+// const app = express();
+// const bodyParser = require('body-parser');//для парсинга в роутинге
+// const Sequelize = require ('sequelize');
+// const dotenv = require('dotenv');
 
 
 
@@ -38,16 +39,6 @@ sequelize
     console.error('Unable to connect to the database:', err);
 });
 
-// const Storage = require('./models/storage')(sequelize, Sequelize)
-// const Folder = require('./models/folder')(sequelize, Sequelize)
-// const User = require('./models/user')(sequelize, Sequelize)
-// const Item = require('./models/item')(sequelize, Sequelize)
-// const Giving = require('./models/giving')(sequelize, Sequelize)
-// Item.belongsTo(Storage);
-// Item.belongsTo(Folder);
-// Item.belongsTo(Giving);
-// Giving.belongsTo(User); 
-
 
 
 app.use(bodyParser.json());
@@ -55,9 +46,12 @@ const urlencodedParser = bodyParser.urlencoded({extended: false}) //включе
 console.log("hello!!!!! how are you ?))))")
 
 app.use(express.static('dist'));
+// app.use(verifyAccessToken);
 
-const routes = require ('./routing');
-// import routes from './routing';
+// const routes = require ('./routing');
+import routes from './routing.js';
+import authRoutes from './auth_routing.js'
+authRoutes(app);
 const ApiRouter = routes(app);
 
 

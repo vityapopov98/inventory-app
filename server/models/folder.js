@@ -1,4 +1,5 @@
-module.exports = function(sequelize, Sequelize){
+// module.exports = function(sequelize, Sequelize){
+export default (sequelize, Sequelize)=>{
 
     const Folder = sequelize.define('folder', {
         name: {

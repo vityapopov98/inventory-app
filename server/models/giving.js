@@ -1,4 +1,5 @@
-module.exports = function(sequelize, Sequelize){
+// module.exports = function(sequelize, Sequelize){
+export default (sequelize, Sequelize)=>{
 
     const Giving = sequelize.define('giving',{
         date:{

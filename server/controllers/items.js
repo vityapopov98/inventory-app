@@ -1,20 +1,29 @@
-const Sequelize = require('sequelize');
+// const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 const sequelize = new Sequelize('heroku_6fa82796f5120b0', 'b73bc9a47e21b1', '11783cae',{
     host: 'us-cdbr-east-02.cleardb.com',
     dialect: 'mysql'
 });
+import ItemConstructor from '../models/item.js'
+import FolderConstructor from '../models/folder.js'
+import StorageConstructor from '../models/storage.js'
+import GivingConstructor from '../models/giving.js'
 
+// const Item = require('../models/item')(sequelize, Sequelize);
+const Item = ItemConstructor(sequelize, Sequelize)
 
-const Item = require('../models/item')(sequelize, Sequelize);
+// const Folder = require('../models/folder')(sequelize, Sequelize);
+const Folder = FolderConstructor(sequelize, Sequelize)
 
-const Folder = require('../models/folder')(sequelize, Sequelize);
+// const Storage = require('../models/storage')(sequelize, Sequelize);
+const Storage = StorageConstructor(sequelize, Sequelize)
 
-const Storage = require('../models/storage')(sequelize, Sequelize);
+// const Giving = require('../models/giving')(sequelize, Sequelize);
+const Giving = GivingConstructor(sequelize, Sequelize)
 
-const Giving = require('../models/giving')(sequelize, Sequelize);
-
-module.exports.getAllItems = function getAllItems(req, res) {
-        //поменять на /api/get-items-all
+// module.exports.getAllItems = function getAllItems(req, res) {
+function getAllItems(req, res) {
+        //Теперь надо будет вытаскивасть все вещи, где groupId = req.body.groupId
         console.log('😂😘😕🙂🙃🤠')
         
         //выводит все записи с вещами
@@ -28,7 +37,8 @@ module.exports.getAllItems = function getAllItems(req, res) {
         // getAllItems()
     }
     
-module.exports.getItemsInStorage =  function getItemsInStorage(req, res) {
+// module.exports.getItemsInStorage =  function getItemsInStorage(req, res) {
+function getItemsInStorage(req, res) {
         console.log('😂😘😕🙂🙃🤠')
             console.log('this is storage name: ', req.body.name)
         
@@ -48,7 +58,8 @@ module.exports.getItemsInStorage =  function getItemsInStorage(req, res) {
             })
     }
     
-module.exports.getItemsInFolder = function getItemsInFolder(req, res) {
+// module.exports.getItemsInFolder = function getItemsInFolder(req, res) {
+function getItemsInFolder(req, res) {
         console.log('😂😘😕🙂🙃🤠')
         console.log(req.body)
             console.log('this is folder name: ', req.body.name)
@@ -69,7 +80,8 @@ module.exports.getItemsInFolder = function getItemsInFolder(req, res) {
             })
     }
     
-module.exports.getItemsInTrash = function getItemsInTrash(req, res) {
+// module.exports.getItemsInTrash = function getItemsInTrash(req, res) {
+function getItemsInTrash(req, res) {
         console.log('😂😘😕🙂🙃🤠')
         console.log('this is folder name: ', req.body.name)
         const Op = Sequelize.Op;
@@ -83,7 +95,8 @@ module.exports.getItemsInTrash = function getItemsInTrash(req, res) {
         })
     }
     
-module.exports.getGivenItems = function getGivenItems(req, res) {
+// module.exports.getGivenItems = function getGivenItems(req, res) {
+function getGivenItems(req, res) {
         console.log('😂😘😕🙂🙃🤠')
         const Op = Sequelize.Op;
         Item.findAll({include: [Storage, Folder, Giving], where:{
@@ -95,7 +108,8 @@ module.exports.getGivenItems = function getGivenItems(req, res) {
         })
     }
     
-module.exports.createItem = function createItem(req, res) {
+// module.exports.createItem = function createItem(req, res) {
+function createItem(req, res) {
         console.log('I WILL ')
         console.log(req.body.from)
         var itemData = {
@@ -157,7 +171,8 @@ module.exports.createItem = function createItem(req, res) {
                 })
     }
     
-module.exports.updateItem = function updateItem(req, res) {
+// module.exports.updateItem = function updateItem(req, res) {
+function updateItem(req, res) {
         //данные приходят из requrst.js
         console.log('WILL UPDATE item row!!!')
         console.log('incoming data: ', req.body)
@@ -259,7 +274,8 @@ module.exports.updateItem = function updateItem(req, res) {
     
     }
     
-module.exports.deleteItem = function deleteItem(req, res) {
+// module.exports.deleteItem = function deleteItem(req, res) {
+function deleteItem(req, res) {
         Item.destroy({
             where: {
                 id: req.body.id
@@ -271,13 +287,13 @@ module.exports.deleteItem = function deleteItem(req, res) {
         })
     }
 
-// export {
-//     getAllItems,
-//     getItemsInStorage,
-//     getItemsInFolder,
-//     getItemsInTrash,
-//     getGivenItems,
-//     createItem,
-//     updateItem,
-//     deleteItem
-// }
+export {
+    getAllItems,
+    getItemsInStorage,
+    getItemsInFolder,
+    getItemsInTrash,
+    getGivenItems,
+    createItem,
+    updateItem,
+    deleteItem
+}
