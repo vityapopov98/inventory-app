@@ -10,7 +10,10 @@
       </button>
     </nav>
 
-    <div class="container-fluid">
+<!-- Для отображения формы входа -->
+<!-- <router-view v-if="!isLog" @checkAuthAgain="checkAuth()"/> -->
+<!-- Ниже в див v-show="isLog" -->
+    <div  class="container-fluid">
       <div class="row">
         <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
           <div class="sidebar-sticky pt-5">
@@ -29,6 +32,7 @@
               <!-- <router-link to="/items" params="{folder: 'all'}">items</router-link> -->
               <li>Administration</li>
               <li>Settings</li>
+              <button @click="logOut()">Log out</button>
             </ul>
             <!-- <button class="btn">Log out
               <svg class="feather">
@@ -69,6 +73,7 @@ export default {
         count: '',
         storage:''
       },],
+      // isLog: false
     // mypop: 'asdfasd'
     }
   },
@@ -89,6 +94,27 @@ export default {
     //     this.items = data
     //   })
     // }
+    // checkAuth(){
+    //     this.requests.checkAuthorization().then(data=>{
+    //       console.log(data)
+    //       this.isLog = data
+    //     })
+    // },
+    logOut(){
+      //Просто удаляем с хранилища браузера токен, и отправляем пустой заголовок Authorization
+      //В итоге нас сервер не пускает
+      // localStorage.hash = ''
+      // this.$root.isAuth = false
+      // this.$router.push('login')
+      // this.requests.checkAuthorization().then(data=>{
+      //  console.log(data)
+      //  this.isLog = data
+      //  })
+      localStorage.refreshToken = ''
+      localStorage.accessToken = ''
+      this.$root.refreshToken = ''
+      this.$root.accessToken = ''
+    }
   },
   mounted(){
     // this.hi()

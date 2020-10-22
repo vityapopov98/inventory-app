@@ -103,6 +103,7 @@ export default {
       nameForEdit: '',
       iconForEdit: '',
       colorForEdit: '',
+      accessToken: ''
     }
   },
   watch: {
@@ -141,10 +142,12 @@ export default {
       this.loadFolders();
     },
     requestStorages(){
+      console.log('requesting storages', this.$root.accessToken)
       fetch(`/api/get-storages`, {
           headers : { 
               'Content-Type': 'application/json',
-              'Accept': 'application/json'
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${this.$root.accessToken}`
           }
       }).then(res=>{
         console.log('here')
@@ -155,6 +158,13 @@ export default {
             }
             else{
                 console.log('er get rooms :(');
+                if(res.status == 401){
+                  this.$router.replace('/login')
+                }
+                else if (res.status == 403){
+                  console.log('Forbidden, I gonna refresh token')
+                    
+                }
                 throw new Error ('er');
             }
         }).then(data=>{
@@ -163,10 +173,12 @@ export default {
         })
     },
     requestFolders(){
+      console.log('requesting folders', this.$root.accessToken)
       fetch(`/api/get-folders`, {
           headers : { 
               'Content-Type': 'application/json',
-              'Accept': 'application/json'
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${this.$root.accessToken}`
           }
       }).then(res=>{
         console.log('here')
@@ -176,7 +188,18 @@ export default {
                 return data;
             }
             else{
+              //Если ошибка 401 Неавторизован, то делаем редирект на вид login.vue
                 console.log('er get rooms :(');
+                if(res.status == 401){
+                  this.$router.replace('/login')
+                }
+                else if (res.status == 403){
+                  console.log('Forbidden, I gonna refresh token')
+                  this.requests.requestNewTokens().then(tokens=>{
+                    console.log('i get tokens', tokens)
+                    this.$router.replace('/login')
+                  })
+                }
                 throw new Error ('er');
             }
         }).then(data=>{
@@ -221,7 +244,8 @@ export default {
               method: 'DELETE',
               headers : { 
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${this.$root.accessToken}`
             },
               body: JSON.stringify(data)
             }).then(res=>{
@@ -237,7 +261,8 @@ export default {
               method: 'DELETE',
               headers : { 
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${this.$root.accessToken}`
             },
               body: JSON.stringify(data)
             }).then(res=>{
@@ -267,7 +292,8 @@ export default {
         
   },
   mounted(){
-        this.loadFolders();
+    //Вытаскивать с хранилища токен и кладем в this.accessToken
+    this.loadFolders();
   },
   computed: {
     filteredEvents: function(){

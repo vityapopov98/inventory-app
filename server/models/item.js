@@ -13,9 +13,13 @@ import FolderConstructor from '../models/folder.js'
 import StorageConstructor from '../models/storage.js'
 import GivingConstructor from '../models/giving.js'
 
+import GroupConstructor from '../models/group.js'
+
 const Folder = FolderConstructor(sequelize, Sequelize)
 const Storage = StorageConstructor(sequelize, Sequelize)
 const Giving = GivingConstructor(sequelize, Sequelize)
+
+const Group = GroupConstructor(sequelize, Sequelize)
 
 // module.exports = function(sequelize, Sequelize){
 export default (sequelize, Sequelize)=>{
@@ -54,6 +58,8 @@ export default (sequelize, Sequelize)=>{
     Item.belongsTo(Storage);
     Item.belongsTo(Folder);
     Item.belongsTo(Giving);
+
+    Item.belongsTo(Group);
 
     return Item;
 }

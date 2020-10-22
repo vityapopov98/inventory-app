@@ -24,10 +24,14 @@ import dotenv from 'dotenv';
 //     host: process.env.HOST,
 //     dialect: 'mysql'
 // });
+
+// import initDB from './services/initDB.js'
 const sequelize = new Sequelize('heroku_6fa82796f5120b0', 'b73bc9a47e21b1', '11783cae',{
     host: 'us-cdbr-east-02.cleardb.com',
     dialect: 'mysql'
 });
+
+// initDB();
 
 
 sequelize
@@ -45,7 +49,7 @@ app.use(bodyParser.json());
 const urlencodedParser = bodyParser.urlencoded({extended: false}) //включение парсера
 console.log("hello!!!!! how are you ?))))")
 
-app.use(express.static('dist'));
+app.use(express.static('../client/dist'));
 // app.use(verifyAccessToken);
 
 // const routes = require ('./routing');

@@ -21,5 +21,6 @@ export default (sequelize, Sequelize)=>{
             type: Sequelize.INTEGER
         }
     });
+
     return Giving;
 }

@@ -116,7 +116,8 @@ export default {
             method: 'PUT',
             headers:{
               'Content-Type': 'application/json',
-              'Accept': 'application/json'
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${this.$root.accessToken}`
             },
             body: JSON.stringify(this.updatedFolder)
           }).then(res=>{
@@ -126,21 +127,7 @@ export default {
           })
     }
   },
-  // computed:{
-  //   safeColor(){
-  //     if(this.color == null){
-  //       return 'blue'
-  //     }
-  //     return this.color
-  //   },
-  //   safeIcon(){
-  //     if(this.icon == null){
-  //       return 'icon-noicon.png'
-  //     }
-  //     return this.color
-  //   }
-  // }
-  
+   
 }
 </script>
 

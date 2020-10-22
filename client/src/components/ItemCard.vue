@@ -137,7 +137,8 @@ export default {
         method: 'DELETE',
         headers:{
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${this.$root.accessToken}`
         },
         body: JSON.stringify(data)
       }).then(res=>{

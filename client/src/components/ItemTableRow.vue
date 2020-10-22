@@ -131,7 +131,8 @@ export default {
               method: 'PUT',
               headers:{
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${this.$root.accessToken}`
               },
               body: JSON.stringify(curItem)
             }).then(res=>{

@@ -94,13 +94,13 @@ export default {
       filterName: 'name',
       showCreateComponent: false,
       addNewItemButton: 'Add Item',
-      
+      accessToken: ''
     }
   },
   methods:{
-    loadItems(fromHere){
+    loadItems(fromHere, accessToken){
       console.log(fromHere)
-      this.requests.loadItems(fromHere).then(result=>{
+      this.requests.loadItems(fromHere, accessToken).then(result=>{
 
         this.items = result
         // this.items.forEach(element => {
@@ -124,7 +124,9 @@ export default {
     },
   },
   mounted(){
-    this.loadItems(this.routeFolderName);
+    this.accessToken = localStorage.accessToken
+    console.log('token', this.accessToken)
+    this.loadItems(this.routeFolderName, this.accessToken);
     //Сбрасываем url фотки
     this.$root.pictureUrl = ''
   },

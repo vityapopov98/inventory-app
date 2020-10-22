@@ -1,4 +1,4 @@
-POST http://localhost:3000/register
+POST http://localhost:3000/api/register
 Content-Type: application/json
 
 {
@@ -11,10 +11,10 @@ Content-Type: application/json
 ### Защищенный роут
 GET http://localhost:3000/api/get-item-all
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsIm5hbWUiOiJhZG1pbjIiLCJsb2dpbiI6ImFkbWluQGFkbWluIiwiaWF0IjoxNjAxNjUyOTA5LCJleHAiOjE2MDE2NTI5Mzl9.8dhKxFiwtyZFKED-JdElKs3rgsiDYIw95kHzXiXgoak
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsIm5hbWUiOiJhZG1pbjIiLCJsb2dpbiI6ImFkbWluQGFkbWluIiwiaWF0IjoxNjAyNjAxMDY1LCJleHAiOjE2MDI2MDEwOTV9.Cxn1949wS6hLsI08lprOJ38D8lwJGenDBQLo9RpCDRw
 
 ###
-POST http://localhost:3000/login
+POST http://localhost:3000/api/login
 Content-Type: application/json
 
 {
@@ -23,9 +23,9 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3000/refreshToken
+POST http://localhost:3000/api/refreshToken
 Content-Type: application/json
 
 {
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsIm5hbWUiOiJhZG1pbjIiLCJsb2dpbiI6ImFkbWluQGFkbWluIiwiaWF0IjoxNjAxNjUyOTA5LCJleHAiOjE2MzMyMTA1MDl9.JPDLDWpuFv07RQ7vReKXUT4vfKTPats7A6mO0ZfNyMk"
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsIm5hbWUiOiJhZG1pbjIiLCJsb2dpbiI6ImFkbWluQGFkbWluIiwiaWF0IjoxNjAyNjAwOTk1LCJleHAiOjE2MzQxNTg1OTV9.5RdL41zHfpHgzTFIb9haULFjxgpPL1cvp3Sy-r6M4vw"
 }

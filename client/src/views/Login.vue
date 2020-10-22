@@ -44,7 +44,6 @@ export default {
         password: '',
         displayError: false, 
         loginErrorMessage: '', 
-
       }
   },
   methods:{
@@ -53,16 +52,15 @@ export default {
         if(event){
           event.preventDefault()
         }
-        //отослать запрос на сервер как в App.vue signIn()
-        //получить ответ от сервера ( токен)
-        //поместить токен в localStorage
-        //сделать редирект на главную this.$router.replace('home')
+        //отправляем на сервер логи пароль
+        //Получаем токен, если все норм
        var data = {
-         login: this.login,
-        password: this.password
-      }
+          email: this.login,
+          password: this.password
+        }
+        console.log(data)
       // отправить на сервер
-      fetch('/api/sign-in',{
+      fetch('/api/login',{
         credentials: 'same-origin',  // параметр определяющий передвать ли разные сессионные данные вместе с запросом
         method: 'POST',              // метод POST 
         body: JSON.stringify(data),  // типа запрашиаемого документа
@@ -74,31 +72,36 @@ export default {
         return data
       }).then(data=>{
         console.log(data)
-        if(data.hash == 'No user found'){
+        if(data.accessToken == 'No user found'){
+          console.log(data.accessToken)
           this.displayError = true
           this.loginErrorMessage = 'No user found'
         }
-        else if(data.hash == ''){
+        else if(data.accessToken == ''){
           this.displayError = true
           this.loginErrorMessage = 'Incorrect'
         }
         else{
           //Все хорошо, делаем редирект
-          // this.isLog = true
-          localStorage.hash = data.hash
-          // this.$root.isAuth = true
+          localStorage.accessToken = data.accessToken;
+          localStorage.refreshToken = data.refreshToken;
           console.log('cppkie', localStorage)
-          // this.checkAutorization;
-          console.log(this.$route.params.nextUrl)
-          // this.$router.replace('events')
-          this.$emit('checkAuthAgain');
+          // console.log(this.$route.params.nextUrl)
+          this.$router.replace('/')
+          // this.$emit('checkAuthAgain');
           }
       })
       }
   },
   mounted(){
-      // this.getUsers()
-      // this.$router.replace('events')
+    this.$root.accessToken = localStorage.accessToken
+    console.log('token', this.$root.accessToken)
+      // Проверить есть ли токен, потому что если есть вход не нужен, делаем редирект на Home
+    if (this.$root.accessToken != '' && this.$root.accessToken != undefined) {
+      console.log('rederection to home');
+      this.$router.replace('/')
+    }
+      
   }
 }
 </script>

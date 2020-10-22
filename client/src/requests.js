@@ -4,7 +4,7 @@ const requests = {
   hello(){
     alert('hello!!!')
   },
-  loadItems(from){
+  loadItems(from, accessToken){
     console.log(' получится?', from)
     // в folder - название папки
       if (from == 'Все вещи'){
@@ -15,7 +15,8 @@ const requests = {
             fetch('/api/get-item-all',{
               headers:{
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
               }
               }).then(res=>{
                 var s=res
@@ -32,7 +33,8 @@ const requests = {
           fetch('/api/get-items-in-trash',{
             headers:{
               'Content-Type': 'application/json',
-              'Accept': 'application/json'
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${accessToken}`
             }
             }).then(res=>{
               var s=res
@@ -50,7 +52,8 @@ const requests = {
           fetch('/api/get-items-given',{
             headers:{
               'Content-Type': 'application/json',
-              'Accept': 'application/json'
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${accessToken}`
             }
             }).then(res=>{
               var s=res
@@ -91,7 +94,8 @@ const requests = {
             method: 'POST',
             headers:{
               'Content-Type': 'application/json',
-              'Accept': 'application/json'
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${accessToken}`
             },
             body: JSON.stringify(data)
           }).then(res=>{
@@ -108,7 +112,7 @@ const requests = {
         })
       }
   },
-  updateItemInformation(item, givingId){
+  updateItemInformation(item, givingId, accessToken){
     console.log('Будет update вещи: ', item)
     var dataToSend ={
       item: item,
@@ -120,7 +124,8 @@ const requests = {
             method: 'PUT',
             headers:{
               'Content-Type': 'application/json',
-              'Accept': 'application/json'
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${accessToken}`
             },
             body: JSON.stringify(dataToSend)
           }).then(res=>{
@@ -134,7 +139,7 @@ const requests = {
           })
     })
   },
-  deleteItem(withId, from){
+  deleteItem(withId, from, accessToken){
     var itemId = {
       id: withId, 
       redirectTo: from
@@ -145,7 +150,8 @@ const requests = {
         method: 'DELETE', 
         headers:{
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
         },
         body: JSON.stringify(itemId)
       }).then(()=>{
@@ -157,6 +163,55 @@ const requests = {
     })
     
   },
+  requestNewTokens(){
+    console.log('request new tokens with refresh token: ', localStorage.refreshToken)
+    return new Promise((resolve, reject)=>{
+      fetch(`/api/refreshToken`, {
+        method: 'POST',
+        headers : { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify({refreshToken: localStorage.refreshToken})
+      }).then(res=>{
+        return res.json()
+      }).then(tokens=>{
+        console.log('tokens', tokens)
+        localStorage.accessToken = tokens.accessToken;
+        localStorage.refreshToken = tokens.refreshToken;
+        resolve(tokens)
+      }).catch(error=>{
+        reject(error)
+      })
+
+    })
+
+    
+  },
+  // checkAuthorization(){
+  //   console.log('cookie', localStorage.hash)
+  //   return new Promise(function(resolve, reject){
+  //     fetch('/api/auth', {
+  //       credentials: 'same-origin',  // параметр определяющий передвать ли разные сессионные данные вместе с запросом
+  //         method: 'POST',              // метод POST 
+  //         // body: JSON.stringify(),  // типа запрашиаемого документа
+  //         headers: new Headers({
+  //           'Content-Type': 'application/json',
+  //           'Authorization': localStorage.hash
+  //         })
+  //     }).then(res=>{
+  //       var data = res.json()
+  //       return data
+  //     }).then(data=>{
+  //       // this.$root.isAuth = data.isLog
+  //       resolve(data.isLog) 
+        
+  //       // this.isLog = true
+  //     }).catch(error=>{
+  //       reject(error)
+  //     })
+  //   })
+  // },
   install: function(Vue){
     Object.defineProperty(Vue.prototype, 'requests', {
       get () { return requests }

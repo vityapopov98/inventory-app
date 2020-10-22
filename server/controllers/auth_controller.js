@@ -69,7 +69,7 @@ function login(req, res) {
         //сравниваем пароли
         bcrypt.compare(req.body.password, user.password).then(checked=>{
             if (checked) {
-
+                
                 //если норм, то выдаем токены
                 var accessToken;
                 var refreshToken;
@@ -82,6 +82,11 @@ function login(req, res) {
                 }).catch(err=>{
                     console.log('cannot generate token ', err)
                 })
+            }
+            else{
+                console.log('wrong password')
+                res.json({accessToken: '', refreshToken: ''})
+                res.json({status: 'Wrong password'})
             }
         })
     })

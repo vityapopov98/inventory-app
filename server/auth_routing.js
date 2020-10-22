@@ -5,9 +5,9 @@ import {register, login, refreshToken, logout} from './controllers/auth_controll
 
 export default (app)=>{
     
-    app.post('/register', urlencodedParser, register);
+    app.post('/api/register', urlencodedParser, register);
 
-    app.post('/login', urlencodedParser, login);
+    app.post('/api/login', urlencodedParser, login);
 
-    app.post('/refreshToken', urlencodedParser, refreshToken);
+    app.post('/api/refreshToken', urlencodedParser, refreshToken);
 }

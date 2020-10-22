@@ -18,5 +18,6 @@ export default  {
     utilizeReason: '',
     givingId: Number,
     from: '',
-  }
+  },
+  accessToken: ''
 }
